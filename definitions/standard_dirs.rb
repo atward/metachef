@@ -1,17 +1,3 @@
-STANDARD_DIRS = Mash.new({
-  :home_dir     => { :uid => 'root', :gid => 'root', },
-  :conf_dir     => { :uid => 'root', :gid => 'root', },
-  :lib_dir      => { :uid => 'root', :gid => 'root', },
-  :log_dir      => { :uid => :user,  :gid => :group, :mode => "0775", },
-  :pid_dir      => { :uid => :user,  :gid => :group, },
-  :tmp_dir      => { :uid => :user,  :gid => :group, },
-  :data_dir     => { :uid => :user,  :gid => :group, },
-  :data_dirs    => { :uid => :user,  :gid => :group, },
-  :journal_dir  => { :uid => :user,  :gid => :group, },
-  :journal_dirs => { :uid => :user,  :gid => :group, },
-  :cache_dir    => { :uid => :user,  :gid => :group, },
-}) unless defined?(STANDARD_DIRS)
-
 #
 # If present, we will use node[(name)][(subsys)] *and then* node[(name)] to
 # look up scoped default values.
@@ -37,7 +23,7 @@ define(:standard_dirs,
 
   [params[:directories]].flatten.each do |dir_type|
     dir_paths = component.node_attr(dir_type, :required) or next
-    hsh = (STANDARD_DIRS.include?(dir_type) ? STANDARD_DIRS[dir_type].dup : Mash.new)
+    hsh = (node[:standard_dirs].attribute?(dir_type) ? node[:standard_dirs][dir_type].dup : Mash.new)
     hsh[:uid] = params[:user]  if (hsh[:uid] == :user )
     hsh[:gid] = params[:group] if (hsh[:gid] == :group)
     [dir_paths].flatten.each do |dir_path|
