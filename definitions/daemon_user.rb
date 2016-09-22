@@ -61,7 +61,7 @@ define(:daemon_user,
     password      nil
     shell         params[:shell]
     home          params[:home]
-    supports      :manage_home => false # you must create standard dirs yourself
+    manage_home   false # you must create standard dirs yourself
     action        params[:action]
   end
 
