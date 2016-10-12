@@ -47,6 +47,7 @@ define(:daemon_user,
   #
   if params[:create_group] && (group_val != 'nogroup')
     group group_val do
+      append    true
       gid       gid_val
       action    params[:create_group]
     end
